@@ -1,11 +1,12 @@
 package dbService.executer;
 
 import base.DBService;
+import dbService.dao.UsersDAO;
 import dbService.dataSets.UsersDataSet;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Created by antonandreev on 08/04/2017.
@@ -13,14 +14,10 @@ import org.hibernate.service.ServiceRegistry;
 public class DBServiceImpl implements DBService {
     private static volatile DBServiceImpl dbServiceImpl;
 
-    private static final String hibernate_show_sql = "true";
-    private static final String hibernate_hbm2ddl_auto = "update";
-
-    private final SessionFactory sessionFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     private DBServiceImpl() {
-        Configuration configuration = getMySQLConfiguration();
-        sessionFactory = createSessionFactory(configuration);
+        entityManagerFactory = Persistence.createEntityManagerFactory("UsersDataSet");
     }
 
     public DBServiceImpl getInstance() {
@@ -36,38 +33,37 @@ public class DBServiceImpl implements DBService {
 
     @Override
     public long insertUser(String login, String password, String email) {
-        return 0;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        UsersDAO dao = new UsersDAO(entityManager);
+
+        long id = dao.insertUser(login, password, email);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return id;
     }
 
     @Override
     public UsersDataSet getUser(long id) {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UsersDAO dao = new UsersDAO(entityManager);
+
+        UsersDataSet dataSet = dao.getUserById(id);
+
+        entityManager.close();
+        return dataSet;
     }
 
     @Override
     public UsersDataSet getUser(String login) {
-        return null;
-    }
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UsersDAO dao = new UsersDAO(entityManager);
 
-    private Configuration getMySQLConfiguration() {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(UsersDataSet.class);
+        UsersDataSet dataSet = dao.getUserByLogin(login);
 
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/dealokit");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "olz3hy4h");
-        configuration.setProperty("hibernate.show.sql", hibernate_show_sql);
-        configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
-
-        return configuration;
-    }
-
-    private SessionFactory createSessionFactory(Configuration configuration) {
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-        builder.applySettings(configuration.getProperties());
-        ServiceRegistry serviceRegistry = builder.build();
-        return configuration.buildSessionFactory(serviceRegistry);
+        entityManager.close();
+        return dataSet;
     }
 }
