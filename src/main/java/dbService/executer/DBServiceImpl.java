@@ -20,7 +20,7 @@ public class DBServiceImpl implements DBService {
         entityManagerFactory = Persistence.createEntityManagerFactory("UsersDataSet");
     }
 
-    public DBServiceImpl getInstance() {
+    public static DBServiceImpl getInstance() {
         if (dbServiceImpl == null) {
             synchronized (DBServiceImpl.class) {
                 if (dbServiceImpl == null) {
