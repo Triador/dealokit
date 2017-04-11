@@ -31,7 +31,7 @@ public class SignUpServlet extends HttpServlet {
 
         long id = dbService.insertUser(login, password, email);
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println("Спасибо за регистрацию" + dbService.getUser(id).getLogin());
+        response.getWriter().println("Спасибо за регистрацию " + dbService.getUser(id).getLogin());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

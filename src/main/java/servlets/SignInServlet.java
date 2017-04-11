@@ -49,7 +49,7 @@ public class SignInServlet extends HttpServlet {
 
         accountService.addSession(sessionId, dataSet);
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println("Рады вас снова видеть" + dataSet.getLogin());
+        response.getWriter().println("Рады вас снова видеть " + dataSet.getLogin());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }
