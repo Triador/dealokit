@@ -14,33 +14,42 @@ public class UsersDataSet implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "login", unique = true)
-    private String login;
+    @Column(name = "name", unique = true)
+    private String name;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "party")
+    private String party;
 
     public UsersDataSet() {} //important for hibernate...
 
-    public UsersDataSet(String login, String password, String email) {
-        this.login = login;
+    public UsersDataSet(String name, String password, String party) {
+        this.name = name;
         this.password = password;
-        this.email = email;
+        this.party = party;
+    }
+
+    public UsersDataSet(String name, String password) {
+        this.name = name;
+        this.password = password;
+        this.party = null;
     }
 
     public long getId() {
         return id;
     }
-    public String getLogin() {
-        return login;
+
+    public String getName() {
+        return name;
     }
+
     public String getPassword() {
         return password;
     }
-    public String getEmail() {
-        return email;
+
+    public String getParty() {
+        return party;
     }
 }

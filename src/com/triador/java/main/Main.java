@@ -13,7 +13,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.SignInServlet;
 import servlets.SignUpServlet;
-import servlets.addTaskServlet;
 
 /**
  * Created by antonandreev on 08/04/2017.
@@ -27,15 +26,14 @@ public class Main {
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         contextHandler.addServlet(new ServletHolder(new SignUpServlet(context)), "/signup");
         contextHandler.addServlet(new ServletHolder(new SignInServlet(context)), "/signin");
-        contextHandler.addServlet(new ServletHolder(new addTaskServlet()), "/addTask");
 
         ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase("site");
+        resourceHandler.setResourceBase("src/com/triador/resources/templates");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {resourceHandler, contextHandler});
 
-        Server server = new Server(8080);
+        Server server = new Server(8081);
         server.setHandler(handlers);
 
         server.join();

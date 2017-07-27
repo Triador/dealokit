@@ -19,19 +19,18 @@ public class SignUpServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String login = request.getParameter("login");
+        String name = request.getParameter("name");
         String password = request.getParameter("password");
-        String email = request.getParameter("email");
 
-        if (login == null || password == null || email == null) {
+        if (name == null || password == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
-        long id = dbService.insertUser(login, password, email);
+        long id = dbService.insertUser(name, password);
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println("Спасибо за регистрацию " + dbService.getUser(id).getLogin());
+        response.getWriter().println("Спасибо за регистрацию " + dbService.getUser(id).getName());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }
