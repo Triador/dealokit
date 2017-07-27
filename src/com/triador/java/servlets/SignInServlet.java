@@ -4,6 +4,7 @@ import base.AccountService;
 import base.Context;
 import base.DBService;
 import dbService.dataSets.UsersDataSet;
+import org.json.simple.JSONObject;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,18 +50,15 @@ public class SignInServlet extends HttpServlet {
             return;
         }
 
-        if (dataSet.getParty() != null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_OK);
-            List<UsersDataSet> users = dbService.getAllUsers();
-            for (UsersDataSet user : users) {
-                response.getWriter().println(user.getName() + "<br>");
-            }
+        JSONObject jsonObject = new JSONObject();
+        if ((dataSet.getParty() == null)) {
+            jsonObject.put("user", dbService.getAllUsers());
         } else {
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println("Рады вас снова видеть " + dataSet.getName());
-            response.setStatus(HttpServletResponse.SC_OK);
+            jsonObject.put("admin", dbService.getAllUsers());
         }
-
+        response.setContentType("text/x-json;charset=UTF-8");
+        response.getWriter().write(jsonObject.toJSONString());
+        response.getWriter().flush();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

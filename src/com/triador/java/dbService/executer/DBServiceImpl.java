@@ -3,6 +3,8 @@ package dbService.executer;
 import base.DBService;
 import dbService.dao.UsersDAO;
 import dbService.dataSets.UsersDataSet;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -68,13 +70,23 @@ public class DBServiceImpl implements DBService {
         return dataSet;
     }
 
-    public List<UsersDataSet> getAllUsers() {
+    public JSONArray getAllUsers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         UsersDAO dao = new UsersDAO(entityManager);
 
         List<UsersDataSet> users = dao.getAllUsers();
 
+        JSONArray jsonArray = new JSONArray();
+        for (UsersDataSet user : users) {
+            JSONObject object = new JSONObject();
+            object.put("id", user.getId());
+            object.put("name", user.getName());
+            object.put("password", user.getPassword());
+            object.put("party", user.getParty());
+            jsonArray.add(object);
+        }
+
         entityManager.close();
-        return users;
+        return jsonArray;
     }
 }
