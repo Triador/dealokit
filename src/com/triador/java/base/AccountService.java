@@ -1,7 +1,6 @@
 package base;
 
 import dbService.dataSets.UsersDataSet;
-import org.hibernate.Session;
 
 /**
  * Created by antonandreev on 08/04/2017.

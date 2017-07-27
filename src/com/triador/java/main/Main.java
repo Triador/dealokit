@@ -13,6 +13,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.SignInServlet;
 import servlets.SignUpServlet;
+import servlets.addTaskServlet;
 
 /**
  * Created by antonandreev on 08/04/2017.
@@ -26,9 +27,10 @@ public class Main {
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         contextHandler.addServlet(new ServletHolder(new SignUpServlet(context)), "/signup");
         contextHandler.addServlet(new ServletHolder(new SignInServlet(context)), "/signin");
+        contextHandler.addServlet(new ServletHolder(new addTaskServlet()), "/addTask");
 
         ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase("html");
+        resourceHandler.setResourceBase("site");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {resourceHandler, contextHandler});

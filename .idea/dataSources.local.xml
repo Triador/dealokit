@@ -8,8 +8,9 @@
       </database-info>
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper" />
       <user-name>root</user-name>
-      <user-password>dfc5dfc6dfd0df99dfc2dfd3df9edfc2</user-password>
+      <introspection-schemas>*:dealokit</introspection-schemas>
       <resolve-scope>dealokit:</resolve-scope>
+      <unqualified-resolve-schemas>dealokit:</unqualified-resolve-schemas>
     </data-source>
   </component>
 </project>

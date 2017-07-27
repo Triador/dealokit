@@ -1,0 +1,22 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#task {
+	width: 70%;
+	height: 50px;
+	font-size: 140%;
+	text-indent: 10px;
+	margin-left: 5%;
+}
+
+.sendTask {
+	width: 48px;
+	height: 48px;
+	border: 0px;
+	border-radius: 100%;
+	vertical-align: middle;
+	margin-left: 10px;
+	background: url("../images/add.png") no-repeat;
+}

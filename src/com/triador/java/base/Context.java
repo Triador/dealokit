@@ -10,10 +10,7 @@ public class Context {
     private Map<Class <?>, Object> context = new HashMap<>();
 
     public void add(Class<?> clazz, Object object) {
-        if (context.containsKey(clazz)) {}
-        else {
             context.put(clazz, object);
-        }
     }
 
     public <T> T get(Class<T> key) {
